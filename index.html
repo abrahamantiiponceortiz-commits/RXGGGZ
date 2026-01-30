@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Elite App | TikTok Clone</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root { --tiktok-red: #fe2c55; --tiktok-blue: #25f4ee; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #000; color: white; font-family: 'Inter', sans-serif; overflow: hidden; }
+
+        /* Header: Siguiendo | Para ti */
+        .top-nav {
+            position: fixed;
+            top: 20px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            z-index: 100;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+        .top-nav span { opacity: 0.6; }
+        .top-nav span.active { opacity: 1; border-bottom: 2px solid white; }
+
+        /* Contenedor de Videos */
+        .app-container {
+            height: 100vh;
+            overflow-y: scroll;
+            scroll-snap-type: y mandatory;
+        }
+        .video-card {
+            height: 100vh;
+            width: 100vw;
+            scroll-snap-align: start;
+            position: relative;
+        }
+
+        /* Botones Laterales Estilo TikTok */
+        .side-bar {
+            position: absolute;
+            right: 10px;
+            bottom: 120px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            align-items: center;
+        }
+        .action-item { text-align: center; font-size: 13px; }
+        .action-item i { font-size: 30px; margin-bottom: 5px; }
+        .profile-pic {
+            width: 45px; height: 45px;
+            border-radius: 50%;
+            border: 2px solid white;
+            background: url('https://via.placeholder.com/50');
+            background-size: cover;
+        }
+
+        /* Barra Inferior */
+        .bottom-menu {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            height: 65px;
+            background: black;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            border-top: 0.5px solid #333;
+        }
+        .upload-btn {
+            background: linear-gradient(to right, var(--tiktok-blue), var(--tiktok-red));
+            padding: 5px 15px;
+            border-radius: 10px;
+            color: black;
+            font-weight: bold;
+        }
+
+        /* Pantalla de Inicio de Sesión / Perfil (Oculta por defecto) */
+        .overlay-screen {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #000;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 500;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="top-nav">
+        <span>Siguiendo</span>
+        <span class="active">Para ti</span>
+    </div>
+
+    <div class="app-container">
+        <section class="video-card">
+            <video loop autoplay muted playsinline style="width:100%; height:100%; object-fit:cover;">
+                <source src="https://assets.mixkit.co/videos/preview/mixkit-dancing-under-neon-lights-3429-large.mp4" type="video/mp4">
+            </video>
+            
+            <div class="side-bar">
+                <div class="profile-pic" onclick="showProfile('@StarCreator')"></div>
+                <div class="action-item" onclick="like(this)"><i class="fas fa-heart"></i><br>1.2M</div>
+                <div class="action-item" onclick="alert('Comentarios próximamente')"><i class="fas fa-comment-dots"></i><br>850</div>
+                <div class="action-item"><i class="fas fa-share"></i><br>Compartir</div>
+            </div>
+
+            <div style="position:absolute; bottom:80px; left:15px;">
+                <h4>@StarCreator</h4>
+                <p>Mi primer video en mi propia App #Elite #TikTokClone</p>
+            </div>
+        </section>
+    </div>
+
+    <input type="file" id="cameraInput" accept="video/*" capture="user" style="display:none">
+
+    <nav class="bottom-menu">
+        <i class="fas fa-home" onclick="location.reload()"></i>
+        <i class="fas fa-search"></i>
+        <div class="upload-btn" onclick="openCamera()"><i class="fas fa-plus"></i></div>
+        <i class="fas fa-inbox" onclick="alert('Bandeja de entrada vacía')"></i>
+        <i class="fas fa-user" onclick="showLogin()"></i>
+    </nav>
+
+    <div id="loginScreen" class="overlay-screen">
+        <h2>Bienvenido</h2>
+        <p>Inicia sesión para continuar</p><br>
+        <button onclick="hideLogin()" style="padding:10px 20px;">Cerrar</button>
+    </div>
+
+    <script>
+        // Función para abrir la cámara real del celular
+        function openCamera() {
+            document.getElementById('cameraInput').click();
+        }
+
+        // Función para dar Like (Cambia a rojo)
+        function like(el) {
+            el.style.color = el.style.color === 'red' ? 'white' : 'red';
+        }
+
+        function showLogin() {
+            document.getElementById('loginScreen').style.display = 'flex';
+        }
+
+        function hideLogin() {
+            document.getElementById('loginScreen').style.display = 'none';
+        }
+
+        function showProfile(user) {
+            alert("Viendo el perfil de: " + user);
+        }
+    </script>
+</body>
+</html>
